@@ -1,8 +1,50 @@
 import cv2
+import mediapipe as mp
 
-cam = cv2.VideoCapture(0)
+# Initialize webcam
+webcam = cv2.VideoCapture(0)
+
+# Initialize MediaPipe Face Mesh with iris refinement
+face_mesh = mp.solutions.face_mesh.FaceMesh(refine_landmarks=True)
 
 while True:
-    _, frame = cam.read()
+    # Capture a frame from the webcam
+    success, frame = webcam.read()
+
+    # Horizontally flip the frame for natural (mirror-like) interaction
+    frame = cv2.flip(frame, flipCode=1)
+
+    # Skip processing if the frame is invalid
+    if not success or frame is None:
+        continue 
+
+    # Convert the frame from BGR (OpenCV default) to RGB (MediaPipe expects RGB)
+    frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+
+    # Detect facial landmarks
+    result = face_mesh.process(frame_rgb)
+
+    # Get frame dimensions
+    frame_height, frame_width, _ = frame.shape
+
+    # Process and draw landmarks if a face is detected
+    if result.multi_face_landmarks:
+        landmarks = result.multi_face_landmarks[0].landmark
+        
+        # Draw specific landmarks near the right eye (indices 474–477)
+        for landmark in landmarks[474:478]:
+            x_px = int(landmark.x * frame_width)
+            y_px = int(landmark.y * frame_height)
+            cv2.circle(frame, center=(x_px, y_px), radius=3, color=(0, 255, 0), thickness=-1)
+            print(x_px, y_px)  # Debug: Print the coordinates of the eye region
+
+    # Display the original frame in a window
     cv2.imshow("Eye Controlled Mouse", frame)
-    cv2.waitKey(1)
+
+    # Wait for 1 ms and check for exit key (e.g., Esc)
+    if cv2.waitKey(1) & 0xFF == 27:  # ESC key to break the loop
+        break
+
+# Release camera and close windows when done
+webcam.release()
+cv2.destroyAllWindows()
