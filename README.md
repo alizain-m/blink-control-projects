@@ -5,26 +5,28 @@ This project uses [MediaPipe's Face Mesh](https://google.github.io/mediapipe/sol
 ## Features
 
 - Real-time webcam capture using OpenCV
-- Face landmark detection using MediaPipe's Face Mesh
+- Real-time facial landmark detection using MediaPipe
 - Safety check for empty webcam frames
-- ESC key to exit cleanly
+- Right eye tracking to control the mouse cursor
+- Blink-based clicking using eyelid landmarks (preliminary)
+- ESC key to cleanly exit the app
 
 ## Requirements
 
 - Python 3.7+
 - [OpenCV](https://pypi.org/project/opencv-python/)
 - [MediaPipe](https://pypi.org/project/mediapipe/)
+- pyautogui (used to control mouse movements and simulate clicks)
 
 ## Installation
 
 Install dependencies:
 
 ```bash
-pip install opencv-python mediapipe
+pip install opencv-python mediapipe pyautogui numpy
 ```
 
 ## Usage
-
 
 Run the script:
 
@@ -38,15 +40,23 @@ python main.py
 
 ## Notes for macOS Users
 
-If you're on macOS, make sure Python has camera permissions:
-
-Go to **System Preferences > Security & Privacy > Camera**
+- If you're on macOS, make sure Python has camera permissions & accessibility permissions:
+    - Go to **System Preferences >  Privacy & Security > Camera**
 and grant access to your terminal or VSCode (whichever you're using).
+
+    - Go to **System Preferences > Privacy & Security > Accessibility**
+and grant access to your terminal or VSCode (whichever you're using).
+
+- Blink detection is currently based on vertical eyelid distance (landmarks 145 and 159) and may be sensitive to lighting and head angle.
+
+- Cursor control is based on one eye; performance may vary depending on webcam resolution and positioning.
 
 ## Roadmap
 
-- Overlay facial landmarks visually on the webcam feed
-- Map eye movement to cursor position
-- Implement blink detection for clicking
-- Add calibration mode for screen mapping
+- [x] Move mouse pointer using eye tracking
+- [x] Blink-to-click functionality
+- [ ] Improve blink detection using Eye Aspect Ratio (EAR)
+- [ ] Add smoothing and stabilization to cursor movement
+- [ ] Calibrate eye-to-screen mapping
+- [ ] Support click-and-drag gestures
 
