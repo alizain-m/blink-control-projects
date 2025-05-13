@@ -1,29 +1,30 @@
-# Eye-Controlled Mouse (Face Mesh Prototype)
+# Flappy Blink 🐦
 
-This project uses [MediaPipe's Face Mesh](https://google.github.io/mediapipe/solutions/face_mesh) and OpenCV to capture facial landmarks in real time from your webcam. It's a foundational step toward building an eye-controlled mouse or gaze-based interaction system.
+A playful twist on Flappy Bird, controlled entirely by your eyes. This game uses MediaPipe's Face Mesh and OpenCV to detect blinks in real-time, allowing you to flap the bird and avoid pipes — no hands required.
 
 ## Features
 
-- Real-time webcam capture using OpenCV
-- Real-time facial landmark detection using MediaPipe
-- Safety check for empty webcam frames
-- Right eye tracking to control the mouse cursor
-- Blink-based clicking using eyelid landmarks (preliminary)
-- ESC key to cleanly exit the app
+- Real-time webcam input using OpenCV
+- Blink detection using Eye Aspect Ratio (EAR)
+- Hands-free gameplay: blink to flap!
+- Dynamic difficulty: pipes get tighter as your score increases
+- Game state management with start, play, and game-over screens
+- Persistent high score tracking
+- FPS display for performance monitoring
 
 ## Requirements
 
 - Python 3.7+
 - [OpenCV](https://pypi.org/project/opencv-python/)
 - [MediaPipe](https://pypi.org/project/mediapipe/)
-- pyautogui (used to control mouse movements and simulate clicks)
+- [Pygame](https://pypi.org/project/pygame/)
 
 ## Installation
 
 Install dependencies:
 
 ```bash
-pip install opencv-python mediapipe pyautogui numpy
+pip install opencv-python mediapipe pygame pyautogui
 ```
 
 ## Usage
@@ -31,32 +32,36 @@ pip install opencv-python mediapipe pyautogui numpy
 Run the script:
 
 ```bash
-python main.py
+python flappy_blink.py
 ```
 
-- A window will display your webcam feed.
-- Facial landmark data is printed to the terminal.
-- Press ESC to exit the application.
+- Blink to make the bird flap.
+- Avoid the pipes.
+- Try to beat your high score!
+- Press any key to start or restart.
 
 ## Notes for macOS Users
 
-- If you're on macOS, make sure Python has camera permissions & accessibility permissions:
-    - Go to **System Preferences >  Privacy & Security > Camera**
-and grant access to your terminal or VSCode (whichever you're using).
+Be sure to give your terminal or code editor permission to use the webcam and control accessibility:
+- System Settings > Privacy & Security > Camera
 
-    - Go to **System Preferences > Privacy & Security > Accessibility**
-and grant access to your terminal or VSCode (whichever you're using).
+- System Settings > Privacy & Security > Accessibility
 
-- Blink detection is currently based on vertical eyelid distance (landmarks 145 and 159) and may be sensitive to lighting and head angle.
+## Known Limitations
 
-- Cursor control is based on one eye; performance may vary depending on webcam resolution and positioning.
+Blink detection may be affected by lighting conditions and head angle.
+
+Works best with a stable, well-lit webcam setup.
+
+Not optimized for multi-player (unless you’ve got two faces 😅)
 
 ## Roadmap
 
-- [x] Move mouse pointer using eye tracking
-- [x] Blink-to-click functionality
-- [ ] Improve blink detection using Eye Aspect Ratio (EAR)
-- [ ] Add smoothing and stabilization to cursor movement
-- [ ] Calibrate eye-to-screen mapping
-- [ ] Support click-and-drag gestures
-
+- [x] Blink-based control
+- [x] Game over + restart screen
+- [x] Difficulty scaling by score
+- [x] Persistent high score
+- [ ] Add sound effects
+- [ ] Multiple difficulty modes
+- [ ] UI skin/theme customization
+- [ ] Optional keyboard controls
